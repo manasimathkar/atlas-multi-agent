@@ -2,7 +2,11 @@
 
 A live multi-agent system that takes a research question and returns a sourced 1-page brief. Built for the Wipro Junior FDE pre-screening assignment.
 
-> **Live demo:** _(deployment URL — added after deploy)_
+> **🌐 Live demo:** **https://wipro-manasi.jc3b1dk9p8244.us-west-2.cs.amazonlightsail.com**
+>
+> Hosted on AWS Lightsail Containers (Oregon, us-west-2). Click the **🔋 Batteries** chip to run a sample query, or the **⚠ Test injection** chip to see the security guardrail block a prompt-injection attempt.
+
+![Architecture](docs/architecture.svg)
 
 ## What it does
 
