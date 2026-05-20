@@ -5,6 +5,8 @@ A live multi-agent system that takes a research question and returns a sourced, 
 > **🌐 Live demo:** **https://wipro-manasi.jc3b1dk9p8244.us-west-2.cs.amazonlightsail.com**
 >
 > Hosted on AWS Lightsail Containers (Oregon, us-west-2). Click a sample chip (e.g. **🔋 Batteries**) and **Run research** to watch the agent pipeline execute live.
+>
+> **🎥 Video walkthrough:** [`docs/Wipro-Video-Demo-Manasi-Mathkar-2026.mp4`](docs/Wipro-Video-Demo-Manasi-Mathkar-2026.mp4) — a recorded walkthrough of the system, architecture, and a live run.
 
 ![Architecture](docs/architecture.svg)
 
@@ -123,7 +125,7 @@ src/atlas/
   web/         FastAPI server + single-page frontend
   cli.py       headless single-query runner
 tests/         pytest suite
-docs/          architecture diagram + written report
+docs/          architecture diagram, written report, deploy guide, video walkthrough
 ```
 
 ## License
