@@ -40,7 +40,7 @@ build-backend = "setuptools.build_meta"
 where = ["src"]
 
 [tool.setuptools.package-data]
-"atlas.web" = ["templates/*.html", "static/**/*"]
+"atlas.web" = ["templates/*.html"]
 
 [tool.ruff]
 line-length = 100

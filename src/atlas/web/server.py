@@ -17,8 +17,6 @@ from typing import Any
 
 from fastapi import FastAPI, Query
 from fastapi.responses import HTMLResponse, StreamingResponse
-from fastapi.staticfiles import StaticFiles
-
 from atlas.graph.build import build_graph
 from atlas.logging import get_logger, setup_logging
 
@@ -31,7 +29,11 @@ STATIC_DIR = BASE_DIR / "static"
 
 app = FastAPI(title="Atlas", version="0.1.0")
 
-app.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")
+# Static directory is optional — only mount if it exists with files.
+# Currently all CSS/JS is inline in index.html so this is a no-op.
+if STATIC_DIR.exists() and any(STATIC_DIR.iterdir()):
+    from fastapi.staticfiles import StaticFiles
+    app.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")
 
 _INDEX_HTML = (TEMPLATES_DIR / "index.html").read_text(encoding="utf-8")
 
