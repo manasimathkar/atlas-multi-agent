@@ -11,4 +11,5 @@ runs/
 .env.*
 !.env.example
 docs/
-*.md
+# Keep README.md — pyproject.toml references it as the package readme
+
