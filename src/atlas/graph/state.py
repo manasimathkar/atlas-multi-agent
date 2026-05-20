@@ -30,6 +30,8 @@ class SubFinding(TypedDict):
 class CriticVerdict(TypedDict):
     accepted: bool
     issues: list[str]  # unsupported claims, factual errors, etc.
+    confidence: int  # 0-100: how well-supported the brief is by its sources
+    confidence_note: str  # one-line rationale for the score
 
 
 class SecurityReport(TypedDict):

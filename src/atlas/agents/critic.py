@@ -28,10 +28,22 @@ Do NOT flag:
   - Style or wording preferences.
   - Reasonable synthesis that combines multiple supported claims.
 
-Return a JSON object with `accepted` (bool) and `issues` (list of short strings).
+You must also assign a CONFIDENCE SCORE (0-100) for how much a reader should trust this
+brief. Base it on:
+  - Source grounding: are claims well-supported by the sub-findings? (biggest factor)
+  - Source quantity and quality: more independent, reputable sources => higher confidence.
+  - Source agreement: sources that corroborate each other => higher; disagreement => lower.
+  - Issues found: each unsupported/hallucinated claim should lower the score.
+  - Coverage: does the brief actually answer the user's question, or leave large gaps?
+
+Guidance: 85-100 = well-sourced, no material issues. 60-84 = generally sound, minor gaps.
+30-59 = notable unsupported claims or thin sourcing. 0-29 = largely unsupported.
+
+Return JSON with `accepted` (bool), `issues` (list of short strings), `confidence`
+(integer 0-100), and `confidence_note` (one short sentence explaining the score).
 Accept the brief if there are 0-1 minor issues."""
 
-_SCHEMA = """{"accepted": true|false, "issues": ["short description of each issue"]}"""
+_SCHEMA = """{"accepted": true|false, "issues": ["short description of each issue"], "confidence": <integer 0-100>, "confidence_note": "<one short sentence>"}"""
 
 
 def critic_node(state: GraphState) -> dict:
@@ -58,6 +70,19 @@ def critic_node(state: GraphState) -> dict:
     issues = result.get("issues", [])
     accepted = bool(result.get("accepted", False)) or len(issues) <= MAX_ISSUES_TO_ACCEPT
 
-    verdict = {"accepted": accepted, "issues": issues}
-    log.info("critic.done", accepted=accepted, n_issues=len(issues))
+    # Clamp confidence to 0-100; default to a neutral 50 if the model omitted it.
+    try:
+        confidence = int(result.get("confidence", 50))
+    except (TypeError, ValueError):
+        confidence = 50
+    confidence = max(0, min(100, confidence))
+    confidence_note = str(result.get("confidence_note", "")).strip()
+
+    verdict = {
+        "accepted": accepted,
+        "issues": issues,
+        "confidence": confidence,
+        "confidence_note": confidence_note,
+    }
+    log.info("critic.done", accepted=accepted, n_issues=len(issues), confidence=confidence)
     return {"critic_verdict": verdict, "critic_retries": retries + 1}
