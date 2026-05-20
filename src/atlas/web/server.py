@@ -82,7 +82,7 @@ async def run_stream(q: str = Query(..., min_length=1, max_length=2000)) -> Stre
         media_type="text/event-stream",
         headers={
             "Cache-Control": "no-cache",
-            "X-Accel-Buffering": "no",  # disable proxy buffering (App Runner / nginx)
+            "X-Accel-Buffering": "no",  # disable proxy buffering so SSE flushes promptly
             "Connection": "keep-alive",
         },
     )

@@ -15,11 +15,11 @@ COPY pyproject.toml README.md ./
 COPY src ./src
 RUN pip install --upgrade pip && pip install .
 
-# App Runner expects the app on $PORT (default 8080)
+# The container listens on $PORT (default 8080)
 ENV PORT=8080
 EXPOSE 8080
 
 USER atlas
 
-# FastAPI app served by uvicorn — proxy-headers makes it App-Runner-friendly
+# FastAPI app served by uvicorn; proxy-headers keeps request URLs correct behind a load balancer
 CMD ["sh", "-c", "uvicorn atlas.web.server:app --host 0.0.0.0 --port ${PORT} --proxy-headers --forwarded-allow-ips='*'"]

@@ -89,7 +89,7 @@ Then in the AWS Lightsail console:
 4. Open port `8080` (HTTP); set the public endpoint health check to path `/healthz`.
 5. **Save and deploy**. Lightsail assigns a public HTTPS URL.
 
-See [`docs/deploy.md`](docs/deploy.md) for the full walkthrough. The repo also includes a `Dockerfile` (non-root user, port 8080) and an `apprunner.yaml` for AWS App Runner if that service is available to you.
+See [`docs/deploy.md`](docs/deploy.md) for the full walkthrough. The `Dockerfile` builds the container image (non-root user, port 8080).
 
 ## Sample prompts
 
